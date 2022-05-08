@@ -1,6 +1,13 @@
 <script setup lang="ts">
-const props = defineProps<{ count?: number }>()
-const count = $ref(props.count || 0)
+import { useMyAsyncState } from '~/composables/myhooks'
+/* eslint-disable no-console */
+// const props = defineProps<{ count?: number }>()
+const count = useMyAsyncState(async () => {
+  const api = 'https://api.github.com/repos/The-Run-Philosophy-Organization/run'
+  const res = await fetch(api)
+  const { stargazers_count } = await res.json()
+  return +stargazers_count
+}, 0)
 </script>
 
 <template>
